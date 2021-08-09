@@ -29,11 +29,14 @@ namespace KarlsonLevelImporter
         {
             if (target.name == "MainMenu") // If we loaded the main menu
             {
-                Core.LevelLoader.Instance.Reset();
+                GameObject.Find("Managers (1)/UI/Game/WinUI/NextBtn").SetActive(true);
 
+                Core.LevelLoader.Instance.Reset();
                 SetupMenu();
             } else if (Core.LevelLoader.Playing && mode != LoadSceneMode.Additive) // If we restarted
             {
+                GameObject.Find("Managers (1)/UI/Game/WinUI/NextBtn").SetActive(false);
+
                 StartCoroutine(Core.LevelLoader.Instance.BeginLoadLevel("", 0));
             }
         }
