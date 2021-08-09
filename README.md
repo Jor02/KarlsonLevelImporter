@@ -1,3 +1,5 @@
+![image](./KarlsonLevelImporterBanner.png)
+
 # Karlson Level Importer
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Jor02/KarlsonLevelImporter?style=flat-square&color=brightgreen)
 ![Lines of code](https://img.shields.io/tokei/lines/github/Jor02/KarlsonLevelImporter?style=flat-square)
