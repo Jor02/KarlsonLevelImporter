@@ -6,6 +6,8 @@ using TMPro;
 using UnityEngine.UI;
 using KarlsonLevelImporter.Core.Menu;
 using System.Reflection;
+using System.Collections.Generic;
+using HarmonyLib;
 
 namespace KarlsonLevelImporter
 {
@@ -14,9 +16,13 @@ namespace KarlsonLevelImporter
     {
         void Awake()
         {
+            new GameObject("Level Loader", typeof(Core.LevelLoader));
+
             SceneManager.sceneLoaded += OnSceneLoaded;
 
-            new GameObject("Level Loader", typeof(Core.LevelLoader));
+            //Patch
+            Harmony harmony = new Harmony("com.jor02.karlsonlevelimporter");
+            harmony.PatchAll();
         }
 
         private void OnSceneLoaded(Scene target, LoadSceneMode mode)
@@ -99,6 +105,10 @@ namespace KarlsonLevelImporter
             LoadingError.Instance.Init(levelSelect.Find("Back").GetChild(0), levelSelect);
             #endregion
 
+            #region Check Time
+            Core.LevelTimes levelTimes = new Core.LevelTimes();
+            #endregion
+
             #region Load Levels
             Core.LevelLoader.Response[] responses = Core.LevelLoader.Instance.FetchLevels();
             Core.LevelLoader.Response[] succesfulResponses;
@@ -107,7 +117,8 @@ namespace KarlsonLevelImporter
 
             foreach (Core.LevelLoader.Response response in succesfulResponses)
             {
-                ButtonGenerator.AddButton(response.LevelName, "NAN", response.Thumbnail, response.LevelPath, response.HeaderSize);
+                //Create button
+                ButtonGenerator.AddButton(response.LevelName, levelTimes[response.LevelPath], response.Thumbnail, response.LevelPath, response.HeaderSize);
             }
             #endregion
         }

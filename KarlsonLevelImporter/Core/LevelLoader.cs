@@ -17,9 +17,9 @@ namespace KarlsonLevelImporter.Core
         public static bool Playing { get; private set; } = false;
         public long HeaderSize { get; private set; } = 0;
         public static AssetBundle currectBundle { get; private set; }
-        private string currentBundlePath;
+        public static string currentBundlePath { get; private set; }
 
-        private string targetPath;
+        public static string targetPath { get; private set; }
         private readonly byte[] header = new byte[] { 75, 97, 76, 70 };
         #endregion
 
@@ -242,7 +242,7 @@ namespace KarlsonLevelImporter.Core
 
             if (Directory.Exists(targetPath))
             {
-                foreach(string path in Directory.GetFiles(targetPath))
+                foreach(string path in Directory.GetFiles(targetPath).Where(name => !name.EndsWith(".dat", StringComparison.OrdinalIgnoreCase)))
                 {
                     LevelMetadata metadata;
                     long HeaderSize = 0;
