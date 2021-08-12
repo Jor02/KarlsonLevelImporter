@@ -5,6 +5,8 @@
 ![Lines of code](https://img.shields.io/tokei/lines/github/Jor02/KarlsonLevelImporter?style=flat-square)
 > _A mod for [KARLSON](https://danidev.itch.io/karlson) to import custom levels_
 
+![image](./preview.gif)
+
 ## Installation
 - [Get latest release here](https://github.com/Jor02/KarlsonLevelImporter/releases/latest)
 - [Get BepInEx here here](https://github.com/BepInEx/BepInEx/releases/latest)
