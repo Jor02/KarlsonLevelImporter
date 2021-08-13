@@ -14,5 +14,8 @@
 1. Copy the contents of BepInEx_xxx_x.x.x.x.zip into the directory that contains Karlson.exe (`.../Karlson/`)
 2. Copy the contents of CustomLeverImporterMod.zip into the `.../Karlson/BepInEx/plugins/` directory
 
+## Creating your own level
+- **[Get started here](https://github.com/Jor02/KarlsonLevelImporter/wiki)**
+
 ## Third party licenses
 > Please check [Third party licenses](./THIRDPARTY.md)
