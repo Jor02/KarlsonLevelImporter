@@ -18,6 +18,6 @@ namespace KarlsonLevelImporter
     {
         public const string GUID = "com.jor02.karlsonlevelimporter";
         public const string NAME = "Karlson Level Importer";
-        public const string VERSION = "1.0";
+        public const string VERSION = "1.1";
     }
 }
