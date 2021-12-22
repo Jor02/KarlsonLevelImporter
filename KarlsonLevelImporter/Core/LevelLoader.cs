@@ -21,6 +21,7 @@ namespace KarlsonLevelImporter.Core
 
         public static string targetPath { get; private set; }
         private readonly byte[] header = new byte[] { 75, 97, 76, 70 };
+        private readonly byte[] unityHeader = new byte[] { 0x55, 0x6E, 0x69, 0x74, 0x79, 0x46, 0x53 };
         #endregion
 
         public LevelLoader()
@@ -68,6 +69,12 @@ namespace KarlsonLevelImporter.Core
                 Playing = true;
                 currentBundlePath = path;
                 currectBundle = AssetBundle.LoadFromFile(path, 0, HeaderSize);
+                if (currectBundle == null)
+                {
+                    Menu.LoadingError.Instance.AddError("Level is made in a Unity version newer than 2019.2.6", true);
+                    Playing = false;
+                    yield break;
+                }
                 Object.FindObjectOfType<Lobby>().LoadMap("0Tutorial");
                 yield break;
             }
@@ -219,6 +226,9 @@ namespace KarlsonLevelImporter.Core
                     case LevelLoader.Response.ResponseType.directoryNotFound:
                         error.AddError("Level directory created, Please restart the game to load maps", false);
                         return false;
+                    case Response.ResponseType.corrupted:
+                        error.AddError($"{Path.GetFileName(response.LevelPath)} is corrupted,\nMaybe try redownloading it?", true);
+                        break;
                     case LevelLoader.Response.ResponseType.metadataNotFound:
                     default:
                         error.AddError("An error occured: " + response.Message, true);
@@ -263,6 +273,14 @@ namespace KarlsonLevelImporter.Core
                         int levelDataLength = reader.ReadInt32();
 
                         HeaderSize = stream.Position + levelDataLength;
+
+                        stream.Position = HeaderSize;
+
+                        if (!reader.ReadBytes(7).SequenceEqual(unityHeader))
+                        {
+                            responses.Add(new Response(Response.ResponseType.corrupted, path, "", null, 0));
+                            continue;
+                        }
 
                         byte[] decompressedMetaData = SevenZip.Compression.LZMA.SevenZipHelper.Decompress(compressedMetaData);
 
@@ -326,7 +344,8 @@ namespace KarlsonLevelImporter.Core
                 succes,
                 metadataNotFound,
                 directoryNotFound,
-                wrongFileType
+                wrongFileType,
+                corrupted
             }
         }
         #endregion
