@@ -1,4 +1,4 @@
-﻿using BepInEx;
+﻿using MelonLoader;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,18 +11,13 @@ using HarmonyLib;
 
 namespace KarlsonLevelImporter
 {
-    [BepInPlugin(PluginInfo.GUID, PluginInfo.NAME, PluginInfo.VERSION)]
-    public class Base : BaseUnityPlugin
+    public class Base : MelonMod
     {
-        void Awake()
+        public override void OnApplicationLateStart()
         {
             new GameObject("Level Loader", typeof(Core.LevelLoader));
 
             SceneManager.sceneLoaded += OnSceneLoaded;
-
-            //Patch
-            Harmony harmony = new Harmony("com.jor02.karlsonlevelimporter");
-            harmony.PatchAll();
         }
 
         private void OnSceneLoaded(Scene target, LoadSceneMode mode)
@@ -37,7 +32,7 @@ namespace KarlsonLevelImporter
             {
                 GameObject.Find("Managers (1)/UI/Game/WinUI/NextBtn").SetActive(false);
 
-                StartCoroutine(Core.LevelLoader.Instance.BeginLoadLevel("", 0));
+                MelonCoroutines.Start(Core.LevelLoader.Instance.BeginLoadLevel("", 0));
             }
         }
 
@@ -46,10 +41,10 @@ namespace KarlsonLevelImporter
             Transform UI = GameObject.Find("/UI").transform;
             Transform menu = UI.Find("Menu");
 
-            Destroy(menu.Find("Map").gameObject);
+            UnityEngine.Object.Destroy(menu.Find("Map").gameObject);
 
-            Transform customLevelButton = Instantiate(menu.Find("Play"), menu);
-            Transform levelSelect = Instantiate(UI.Find("Play"), UI);
+            Transform customLevelButton = UnityEngine.Object.Instantiate(menu.Find("Play"), menu);
+            Transform levelSelect = UnityEngine.Object.Instantiate(UI.Find("Play"), UI);
 
             #region Setup Custom Button
             //Set custom level button transform
@@ -68,8 +63,8 @@ namespace KarlsonLevelImporter
             b.onClick = new Button.ButtonClickedEvent();
             b.onClick.AddListener(() => { levelSelect.gameObject.SetActive(true); });
             b.onClick.AddListener(() => { menu.gameObject.SetActive(false); });
-            b.onClick.AddListener(FindObjectOfType<MenuCamera>().Play);
-            b.onClick.AddListener(FindObjectOfType<Lobby>().ButtonSound);
+            b.onClick.AddListener(UnityEngine.Object.FindObjectOfType<MenuCamera>().Play);
+            b.onClick.AddListener(UnityEngine.Object.FindObjectOfType<Lobby>().ButtonSound);
 
             //Move other buttons
             menu.Find("Options").localPosition -= Vector3.up * 50.6211f;
@@ -80,7 +75,7 @@ namespace KarlsonLevelImporter
             foreach (Transform child in levelSelect)
             {
                 if (child.name != "Back" && child.name != "Tutorial")
-                    Destroy(child.gameObject);
+                    UnityEngine.Object.Destroy(child.gameObject);
             }
 
             //Set button alignment transform
