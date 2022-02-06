@@ -11,11 +11,12 @@ namespace KarlsonLevelImporter.Core.Components
         {
             UnityEngine.Debug.Log("Test");
 
-            GameObject player = GameObject.Find("/Player");
-            player.transform.position = transform.position + (Vector3.up * 1.4953f);
-            player.transform.Find("Orientation").rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+            Transform player = GameObject.Find("/Player").transform;
+            player.position = transform.position + (Vector3.up * 1.4953f);
+            player.GetComponent<PlayerMovement>().playerCam.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
 
             Destroy(gameObject);
         }
     }
 }
+
