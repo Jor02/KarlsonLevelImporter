@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "KarlsonLevelImporter": {
-      "commandName": "Executable",
-      "executablePath": "%UserProfile%\\Documents\\programs\\Karlson\\Karlson.exe"
-    }
-  }
-}
