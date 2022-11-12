@@ -16,6 +16,7 @@
 
 ## Creating your own level
 - **[Get started here](https://github.com/Jor02/KarlsonLevelImporter/wiki)**
+- If you instead want a more detailed guide you can check out **[this (WIP) guide](https://github.com/whyllay/karlson-IL-Guide)** made by whyllay!
 
 ## Third party licenses
 > Please check [Third party licenses](./THIRDPARTY.md)
